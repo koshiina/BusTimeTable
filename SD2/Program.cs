@@ -47,35 +47,48 @@ public class Schedule
 
 class Manager
 {
-    public string puk = "Hello";
     static void Main(string[] args)//galima spausdint kazka konsolej tik per si metoda!!!
     {
         Manager Mymanager = new Manager();
-        Console.WriteLine("Sveiki atvyke i Bus Trackeri! Ka noretumete daryti?");
-        Console.WriteLine("1. Valdyti tvarkarasti.");
+        Console.WriteLine("Welcome back to BusTracker! What would you like to do?");
+        Console.WriteLine("1. Manage schedule");
         Console.WriteLine("2. Perziureti stoteles tvarkarasti.");
-        Console.WriteLine("3. Ieskoti greiciausio reiso.");
-        Console.WriteLine("4. Iseiti is programos.");
+        Console.WriteLine("3. Search for fastest bus route.");
+        Console.WriteLine("4. smt else.");
+        Console.WriteLine("5. Exit program - Press Escape.");
 
-        Console.ReadLine();
+        ConsoleKeyInfo currentInputKey;
+        while(true)
+        {
+            currentInputKey = Console.ReadKey();
+            if(currentInputKey.Key == ConsoleKey.Escape)
+            {
+                Console.WriteLine(" - Exiting program...");
+                System.Environment.Exit(0);
+            }
+            else if (currentInputKey.Key == ConsoleKey.D1)
+            {
+                Console.WriteLine(" - You chose first option.");
+            }
+            else if (currentInputKey.Key == ConsoleKey.D2)
+            {
+                Console.WriteLine(" - You chose second option.");
+            }
+            else if(currentInputKey.Key == ConsoleKey.D3)
+            {
+                Console.WriteLine(" - You chose third option.");
+            }
+            else if (currentInputKey.Key == ConsoleKey.D4)
+            {
+                Console.WriteLine(" - You chose fourth option.");
+            }
+            else
+            {
+                Console.WriteLine("Choose again.");
+            }
+        }
     }
 }
-//#budas kaip useris galetu iseiti is programos, t.y. paspaudzius ant escape mygtuko ant keyboardo
-
-//ConsoleKeyInfo CurrentInputKey; 
-//while (true)
-//{
-//    // Your Other Codes
-//    Console.WriteLine("\rHello C# Developer.");
-//    CurrentInputKey = Console.ReadKey();
-
-//    if (CurrentInputKey != null && CurrentInputKey.Key == ConsoleKey.Escape)
-//    {
-//        Console.WriteLine("Exit ...");
-//        System.Environment.Exit(0);
-//    }
-//}
-
 //#arba antras budas, tai kaip input key padaryt tipo choice kaip per os ir tada su switch tikrinti.
 
 

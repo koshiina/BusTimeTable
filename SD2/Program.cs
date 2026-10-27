@@ -18,6 +18,23 @@ public class BusRoute
     public BusRoute Kitas { get; set; }
 
 }
+
+public class BusRouteDTO
+{
+    public int marsrutoId { get; set; }
+    public int numeris { get; set; }
+    public string kryptis { get; set; }
+
+
+
+}
+
+public class BusStopDTO
+{ 
+    public string pavadinimas { get; set; }
+    public string laikas { get; set; }
+}
+
 public class Schedule
 {
     public BusRoute Pradzia { get; set; }
@@ -43,7 +60,12 @@ public class Schedule
     }
 
 }
-
+//File.WriteAllText bla bla json kad perrasyti i jsona atnaujinimus is programos
+//var dataFromJSON = File.ReadAllText("data.json");
+//skaitydami is json failo, pries tai sukuriam Data Transfer objektus, i kuriuos is pradziu
+//bus skaitomi duomenys is json, o poto jau priskiriami og objektams
+//nes og turi dvikrypcius, vienkrypciai listai, o jsone viskas kaip paprastas masyvas
+//tai tikriausiai bus skitomi is jsono failo su tais objektais ir irasysim taip pat su jais
 
 class Manager
 {
@@ -89,7 +111,3 @@ class Manager
         }
     }
 }
-//#arba antras budas, tai kaip input key padaryt tipo choice kaip per os ir tada su switch tikrinti.
-
-
-

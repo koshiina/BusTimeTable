@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text.Json;
 using System.IO;
 using System.Text.Json.Serialization;
-using System.Xml;
 public class BusStopNode
 {
     public string Pavadinimas { get; set; }
@@ -17,15 +16,12 @@ public class BusRoute
     public int Numeris {  get; set; }
     public string Kryptis { get; set; }
     public BusStopNode PirmaStotele { get; set; }
-    public BusRoute Ankstesnis { get; set; }
-    public BusRoute Kitas { get; set; }
-
 }
 
 public class ScheduleManager
 {
     //static metodas leidzia kitoms klasems naudot sios metodus, ne kuriant sios klases objekta(?)
-    public static Schedule Reading(string fileHome)
+    public static Schedule ReadingFromJSON(string fileHome)
     {
         var schedule = new Schedule();
 
@@ -42,7 +38,7 @@ public class ScheduleManager
         string data = File.ReadAllText(fileHome);
         var routeDTO = JsonSerializer.Deserialize<List<BusRouteDTO>>(fileHome, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,//jeigu jsone is mazosios propertyname, o busrouteDTO is didziosios, tai 
+            PropertyNameCaseInsensitive = true,//jeigu jsone is mazosios property name, o busrouteDTO is didziosios, tai 
             //programa nekreips i tai demesi ir priskirs attinkamas reiksmes, vietoj null
         });
 
@@ -85,11 +81,10 @@ public class ScheduleManager
                     paskutineStot = stotNode;
                 }
                 rNode.PirmaStotele = pirmaStot;
-                schedule.PridetiReisa(rNode);
             }
-            return schedule;
-
+            schedule.PridetiReisa(rNode);
         }
+        return schedule;
     }
     public void UpdateJSON()
     {
@@ -114,27 +109,31 @@ public class BusStopDTO
 
 public class Schedule
 {
-    public BusRoute Pradzia { get; set; }//head
-    public BusRoute Pabaiga { get; set; }//tail
+    public LinkedList<BusRoute> Reisai = new LinkedList<BusRoute>();
 
     public void PridetiReisa(BusRoute newRoute)
     {
-        if (Pradzia == null)
+        if(Reisai.First() == null)
         {
-            Pradzia = newRoute;
-            Pabaiga = newRoute;
+            Reisai.AddFirst(newRoute);
         }
         else
         {
-            Pabaiga.Kitas = newRoute;
-            newRoute.Ankstesnis = Pabaiga;
-            Pabaiga = newRoute;
+            Reisai.AddLast(newRoute);
         }
-    }
-    
-    public void PasalintiReisa()
+    }    
+    public void PasalintiReisa(int id)
     {
-
+        var cur = Reisai.First;
+        while (cur != null)
+        {
+            if (cur.Value.ID == id)
+            {
+                Reisai.Remove(cur);
+                break;
+            }
+            cur = cur.Next;
+        }
     }
 
 }

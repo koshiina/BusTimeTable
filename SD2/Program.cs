@@ -92,7 +92,6 @@ public class ScheduleManager
     }
 }
 
-
 public class BusRouteDTO
 {
     public int marsrutoId { get; set; }
@@ -113,6 +112,7 @@ public class Schedule
 
     public void PridetiReisa(BusRoute newRoute)
     {
+
         if(Reisai.First() == null)
         {
             Reisai.AddFirst(newRoute);
@@ -134,52 +134,97 @@ public class Schedule
             }
             cur = cur.Next;
         }
+        //Reisai.
     }
-
 }
 
 
-class UIManager
+public class UIManager
 {
-    static void Main(string[] args)//galima spausdint kazka konsolej tik per si metoda!!!
+    private Schedule _tvarkarastis;
+    public UIManager(Schedule tvarkarastis)//konstruktorius
     {
-        UIManager MyManager = new UIManager();
-        Console.WriteLine("Welcome back to BusTracker! What would you like to do?");
-        Console.WriteLine("1. Manage schedule");
-        Console.WriteLine("2. Perziureti stoteles tvarkarasti.");
-        Console.WriteLine("3. Search for fastest bus route.");
-        Console.WriteLine("4. Peržiūrėti pasirinkto reiso informaciją. ");
-        Console.WriteLine("5. Exit program - Press Escape.");
+        _tvarkarastis = tvarkarastis;
+    }
 
-        ConsoleKeyInfo currentInputKey;
-        while(true)
+    public void RodytiVisuReisuID()
+    {
+        
+    }
+
+    public void RodytiReisoInfo(int id)
+    {
+        BusRoute found = null;
+        var cur = _tvarkarastis.Reisai.First;
+        while (cur != null)
         {
-            currentInputKey = Console.ReadKey();
-            if(currentInputKey.Key == ConsoleKey.Escape)
+            if (cur.Value.ID == id)
             {
-                Console.WriteLine(" - Exiting program...");
-                System.Environment.Exit(0);
+                found = cur.Value;
+                break;
             }
-            else if (currentInputKey.Key == ConsoleKey.D1)
-            {
-                Console.WriteLine(" - You chose first option.");
-            }
-            else if (currentInputKey.Key == ConsoleKey.D2)
-            {
-                Console.WriteLine(" - You chose second option.");
-            }
-            else if(currentInputKey.Key == ConsoleKey.D3)
-            {
-                Console.WriteLine(" - You chose third option.");
-            }
-            else if (currentInputKey.Key == ConsoleKey.D4)
-            {
-                Console.WriteLine(" - You chose fourth option.");
-            }
-            else
-            {
-                Console.WriteLine("Choose again.");
-            }
+            cur = cur.Next;
+        }
+        Console.WriteLine($"\nReisas Nr.{found.Numeris}: {found.Kryptis}");//$ leidzia kintamuosius "" rasyt
+        Console.WriteLine("Stoteles:/n");
+
+        var stop = found.PirmaStotele;
+        while (stop != null){ 
+            Console.WriteLine($" - {stop.Pavadinimas} {stop.Laikas}");
+            stop = stop.Kita;
         }
     }
 }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Schedule tvarkarastis = new Schedule();
+            tvarkarastis = ScheduleManager.ReadingFromJSON("busdata.json");
+            UIManager UserUi = new UIManager(tvarkarastis);
+
+
+
+            Console.WriteLine("Welcome back to BusTracker! What would you like to do?");
+            Console.WriteLine("1. Manage schedule");
+            Console.WriteLine("2. Perziureti stoteles tvarkarasti.");
+            Console.WriteLine("3. Search for fastest bus route.");
+            Console.WriteLine("4. Peržiūrėti pasirinkto reiso informaciją. ");
+            Console.WriteLine("5. Exit program - Press Escape.");
+
+            ConsoleKeyInfo currentInputKey;
+            while (true)
+            {
+                currentInputKey = Console.ReadKey();
+                if (currentInputKey.Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine(" - Exiting program...");
+                    System.Environment.Exit(0);
+                }
+                else if (currentInputKey.Key == ConsoleKey.D1)
+                {
+                    Console.WriteLine(" - You chose first option.");
+                }
+                else if (currentInputKey.Key == ConsoleKey.D2)
+                {
+                    Console.WriteLine(" - You chose second option.");
+                }
+                else if (currentInputKey.Key == ConsoleKey.D3)
+                {
+                    Console.WriteLine(" - You chose third option.");
+                }
+                else if (currentInputKey.Key == ConsoleKey.D4)
+                {
+                    Console.WriteLine(" - You chose fourth option.");
+                    Console.WriteLine("Perziurekite visu reisu ID ir parasykite kurio informacija norite pamatyti");
+                    UserUi.RodytiVisuReisuID();
+                    int choice = int.Parse(Console.ReadLine());
+                    UserUi.RodytiReisoInfo(choice);
+                }
+                else
+                {
+                    Console.WriteLine("Choose again.");
+                }
+            }
+    }
+    }

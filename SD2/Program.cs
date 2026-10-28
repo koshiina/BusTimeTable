@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.IO;
 using System.Text.Json.Serialization;
+//using Newtonsoft.Json;
 public class BusStopNode
 {
     public string Pavadinimas { get; set; }
@@ -35,11 +36,15 @@ public class ScheduleManager
         //bus skaitomi duomenys is json, o poto jau priskiriami og objektams
         //nes og turi dvikrypcius, vienkrypciai listai, o jsone viskas kaip paprastas masyvas
         //tai tikriausiai bus skitomi is jsono failo su tais objektais ir irasysim taip pat su jais
+        //string data = File.ReadAllText(fileHome);
+        //var routeDTO = JsonConvert.DeserializeObject<List<BusRouteDTO>>(data);
+        //{
+        //    PropertyNameCaseInsensitive = true,
+        //});
         string data = File.ReadAllText(fileHome);
-        var routeDTO = JsonSerializer.Deserialize<List<BusRouteDTO>>(fileHome, new JsonSerializerOptions
+        var routeDTO = JsonSerializer.Deserialize<List<BusRouteDTO>>(data, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,//jeigu jsone is mazosios property name, o busrouteDTO is didziosios, tai 
-            //programa nekreips i tai demesi ir priskirs attinkamas reiksmes, vietoj null
+            PropertyNameCaseInsensitive = true,//jeigu jsone is mazosios property name, o busrouteDTO is didziosios, tai programa nekreips i tai demesi ir priskirs attinkamas reiksmes, vietoj null
         });
 
         if (routeDTO == null)
@@ -101,7 +106,7 @@ public class BusRouteDTO
 }
 
 public class BusStopDTO
-{ 
+{
     public string pavadinimas { get; set; }
     public string laikas { get; set; }
 }
@@ -113,7 +118,7 @@ public class Schedule
     public void PridetiReisa(BusRoute newRoute)
     {
 
-        if(Reisai.First() == null)
+        if(Reisai.First == null)
         {
             Reisai.AddFirst(newRoute);
         }
@@ -134,7 +139,6 @@ public class Schedule
             }
             cur = cur.Next;
         }
-        //Reisai.
     }
 }
 
@@ -149,7 +153,13 @@ public class UIManager
 
     public void RodytiVisuReisuID()
     {
-        
+        var cur = _tvarkarastis.Reisai.First;
+        Console.WriteLine("Visi reisai");
+        while (cur != null)
+        {
+            Console.WriteLine(cur.Value.ID);
+            cur= cur.Next;
+        }
     }
 
     public void RodytiReisoInfo(int id)
@@ -165,12 +175,12 @@ public class UIManager
             }
             cur = cur.Next;
         }
-        Console.WriteLine($"\nReisas Nr.{found.Numeris}: {found.Kryptis}");//$ leidzia kintamuosius "" rasyt
-        Console.WriteLine("Stoteles:/n");
+        Console.WriteLine($"Reisas Nr.{found.Numeris}: {found.Kryptis}");//$ leidzia kintamuosius "" rasyt
+        Console.WriteLine("Stoteles:");
 
         var stop = found.PirmaStotele;
         while (stop != null){ 
-            Console.WriteLine($" - {stop.Pavadinimas} {stop.Laikas}");
+            Console.WriteLine($" -> {stop.Pavadinimas} {stop.Laikas}");
             stop = stop.Kita;
         }
     }
@@ -183,10 +193,8 @@ public class UIManager
             tvarkarastis = ScheduleManager.ReadingFromJSON("busdata.json");
             UIManager UserUi = new UIManager(tvarkarastis);
 
-
-
             Console.WriteLine("Welcome back to BusTracker! What would you like to do?");
-            Console.WriteLine("1. Manage schedule");
+            Console.WriteLine("1. Valdyti tvarkaraštį.");
             Console.WriteLine("2. Perziureti stoteles tvarkarasti.");
             Console.WriteLine("3. Search for fastest bus route.");
             Console.WriteLine("4. Peržiūrėti pasirinkto reiso informaciją. ");

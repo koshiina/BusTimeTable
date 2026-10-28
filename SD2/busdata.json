@@ -1,74 +1,76 @@
 [
-{
-"marsrutoId" : "M023",
-"numeris" : 36,
-"kryptis" : "Verkių rūmai - Baltupiai",
-"stoteles": [
-        {
-	"pavadinimas": "Verkių rūmai",
-	"laikas": "7:17",
-        },
-	{
-	"pavadinimas": "Petro Baublio st.",
-	"laikas" : "7:21",
-	},
-	{
-	"pavadinimas": "Žaliųjų ežerų st.",
-	"laikas": "7:23",
-	},
-	{
-	"pavadinimas": "Jeruzalė",
-	"laikas": "7:25",
-	},
-	{
-	"pavadinimas": "Kalvarijos",
-	"laikas": "7:28",
-	},
-	{
-	"pavadinimas": "Seminarija",
-	"laikas": "7:29",
-	},
-	{
-	"pavadinimas": "Pušynas",
-	"laikas": "7:30",
-	},
-	{
-	"pavadinimas": "Baltupiai",
-	"laikas": "7:32",
-	},
-]
-},
-"marsrutoId" : "M024",
-"numeris" : 36,
-"kryptis" : "Baltupiai - Verkių rūmai",
-"stoteles": [
-        {
-	"pavadinimas": "Baltupiai",
-	"laikas": "9:54",
-        },
-	{
-	"pavadinimas": "Pušynas",
-	"laikas" : "9:55",
-	},
-	{
-	"pavadinimas": "Seminarija",
-	"laikas": "9:56",
-	},
-	{
-	"pavadinimas": "Kalvarijos",
-	"laikas": "9:57",
-	},
-	{
-	"pavadinimas": "Jeruzalė",
-	"laikas": "9:58",
-	},
-	{
-	"pavadinimas": "Petro Baublio st.",
-	"laikas": "10:00",
-	},
-	{
-	"pavadinimas": "Verkių rūmai",
-	"laikas": "10:02",
-	},
-
-]
+		{
+			"marsrutoId": 23,
+			"numeris": 36,
+			"kryptis": "Verkių rūmai - Baltupiai",
+			"stoteles": [
+				{
+					"pavadinimas": "Verkių rūmai",
+					"laikas": "7:17"
+				},
+				{
+					"pavadinimas": "Petro Baublio st.",
+					"laikas": "7:21"
+				},
+				{
+					"pavadinimas": "Žaliųjų ežerų st.",
+					"laikas": "7:23"
+				},
+				{
+					"pavadinimas": "Jeruzalė",
+					"laikas": "7:25"
+				},
+				{
+					"pavadinimas": "Kalvarijos",
+					"laikas": "7:28"
+				},
+				{
+					"pavadinimas": "Seminarija",
+					"laikas": "7:29"
+				},
+				{
+					"pavadinimas": "Pušynas",
+					"laikas": "7:30"
+				},
+				{
+					"pavadinimas": "Baltupiai",
+					"laikas": "7:32"
+				}
+			]
+		},
+		{
+			"marsrutoId": 24,
+			"numeris": 36,
+			"kryptis": "Baltupiai - Verkių rūmai",
+			"stoteles": [
+				{
+					"pavadinimas": "Baltupiai",
+					"laikas": "9:54"
+				},
+				{
+					"pavadinimas": "Pušynas",
+					"laikas": "9:55"
+				},
+				{
+					"pavadinimas": "Seminarija",
+					"laikas": "9:56"
+				},
+				{
+					"pavadinimas": "Kalvarijos",
+					"laikas": "9:57"
+				},
+				{
+					"pavadinimas": "Jeruzalė",
+					"laikas": "9:58"
+				},
+				{
+					"pavadinimas": "Petro Baublio st.",
+					"laikas": "10:00"
+				},
+				{
+					"pavadinimas": "Verkių rūmai",
+					"laikas": "10:02"
+				}
+			]
+		}
+  ]

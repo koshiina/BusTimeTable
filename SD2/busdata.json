@@ -76,31 +76,39 @@
 	{
 		"marsrutoId": 12,
 		"numeris": 66,
-		"kryptis": "",
+		"kryptis": "Jono Kazlausko st - Naujaneriai",
 		"stoteles": [
 			{
 				"pavadinimas": "Jono Kazlausko st.",
-				"laikas": ""
+				"laikas": "11:04"
 			},
 			{
 				"pavadinimas": "Naujakiemio st.",
-				"laikas": ""
+				"laikas": "11:05"
 			},
 			{
 				"pavadinimas": "Baltupiai",
-				"laikas": ""
+				"laikas": "11:07"
 			},
 			{
-				"pavadinimas": "",
-				"laikas":  ""
+				"pavadinimas": "Seminarija",
+				"laikas": "11:09"
+			},
+			{
+				"pavadinimas": "Kalvarijos",
+				"laikas": "11:10"
+			},
+			{
+				"pavadinimas": "Jeruzale",
+				"laikas": "11:11"
 			},
 			{
 				"pavadinimas": "Balsiai",
-				"laikas": ""
+				"laikas": "11:25"
 			},
 			{
 				"pavadinimas": "Naujaneriai",
-				"laikas":  ""
+				"laikas": "11:29"
 			}
 		]
 	}

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 public class BusStopNode
 {
     public string Pavadinimas { get; set; }
-    public string Laikas { get; set; }
+    public TimeSpan Laikas { get; set; }
     public BusStopNode Kita { get; set; }
 }
 
@@ -17,6 +17,19 @@ public class BusRoute
     public int Numeris {  get; set; }
     public string Kryptis { get; set; }
     public BusStopNode PirmaStotele { get; set; }
+}
+public class BusRouteDTO
+{
+    public int marsrutoId { get; set; }
+    public int numeris { get; set; }
+    public string kryptis { get; set; }
+    public List<BusStopDTO> stoteles { get; set; }
+}
+
+public class BusStopDTO
+{
+    public string pavadinimas { get; set; }
+    public TimeSpan laikas { get; set; }
 }
 
 public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, bei updatinam jsona
@@ -97,20 +110,6 @@ public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, be
     //}
 }
 
-public class BusRouteDTO
-{
-    public int marsrutoId { get; set; }
-    public int numeris { get; set; }
-    public string kryptis { get; set; }
-    public List<BusStopDTO> stoteles { get; set; }
-}
-
-public class BusStopDTO
-{
-    public string pavadinimas { get; set; }
-    public string laikas { get; set; }
-}
-
 public class Schedule//trinam, redaguojam, pridedam reisus ir stoteles
 {
     public LinkedList<BusRoute> Reisai = new LinkedList<BusRoute>();
@@ -171,14 +170,45 @@ public class Schedule//trinam, redaguojam, pridedam reisus ir stoteles
         }
     }
 
-    public void RedaguotiReisoLaika(int id)
+    public void RedaguotiReisoLaika(int id, TimeSpan time, TimeSpan newTime, string stop)
     {
-
+        foreach(var r in Reisai)
+        {
+            if(r.ID == id)
+            {
+                BusStopNode cur = r.PirmaStotele;
+                while (cur != null)
+                {
+                    if (cur.Laikas == time)
+                    {
+                        cur.Laikas = newTime;
+                        return;
+                    }
+                    cur = cur.Kita;
+                }
+            }
+        }
     }
 
-    public void RedauguotiStotelesPavadinima(int id, string name)
+    public void RedauguotiStotelesPavadinima(int id, string oldName, string newName)
     {
+        foreach(var r in Reisai)
+        {
+            if(r.ID == id)
+            {
+                BusStopNode cur = r.PirmaStotele;
 
+                while(cur != null)
+                {
+                    if(cur.Pavadinimas == oldName)
+                    {
+                        cur.Pavadinimas = newName;
+                        return;
+                    }
+                    cur = cur.Kita;
+                }
+            }
+        }
     }
 
 }
@@ -198,7 +228,7 @@ public class UIManager//rodom reisu ir stoteliu info, greiciausiu reisu paieska
         Console.WriteLine("Visi reisai");
         while (cur != null)
         {
-            Console.WriteLine(cur.Value.ID);
+            Console.WriteLine($"Marsruto ID:{cur.Value.ID} - {cur.Value.Numeris} autobusas");
             cur= cur.Next;
         }
     }
@@ -225,6 +255,8 @@ public class UIManager//rodom reisu ir stoteliu info, greiciausiu reisu paieska
             stop = stop.Kita;
         }
     }
+
+
 }
     class Program//paleidzia visa programa, kazkiek basic ui
     {

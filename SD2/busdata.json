@@ -38,39 +38,70 @@
 				}
 			]
 		},
-		{
-			"marsrutoId": 24,
-			"numeris": 36,
-			"kryptis": "Baltupiai - Verkių rūmai",
-			"stoteles": [
-				{
-					"pavadinimas": "Baltupiai",
-					"laikas": "9:54"
-				},
-				{
-					"pavadinimas": "Pušynas",
-					"laikas": "9:55"
-				},
-				{
-					"pavadinimas": "Seminarija",
-					"laikas": "9:56"
-				},
-				{
-					"pavadinimas": "Kalvarijos",
-					"laikas": "9:57"
-				},
-				{
-					"pavadinimas": "Jeruzalė",
-					"laikas": "9:58"
-				},
-				{
-					"pavadinimas": "Petro Baublio st.",
-					"laikas": "10:00"
-				},
-				{
-					"pavadinimas": "Verkių rūmai",
-					"laikas": "10:02"
-				}
-			]
-		}
-  ]
+	{
+		"marsrutoId": 24,
+		"numeris": 36,
+		"kryptis": "Baltupiai - Verkių rūmai",
+		"stoteles": [
+			{
+				"pavadinimas": "Baltupiai",
+				"laikas": "9:54"
+			},
+			{
+				"pavadinimas": "Pušynas",
+				"laikas": "9:55"
+			},
+			{
+				"pavadinimas": "Seminarija",
+				"laikas": "9:56"
+			},
+			{
+				"pavadinimas": "Kalvarijos",
+				"laikas": "9:57"
+			},
+			{
+				"pavadinimas": "Jeruzalė",
+				"laikas": "9:58"
+			},
+			{
+				"pavadinimas": "Petro Baublio st.",
+				"laikas": "10:00"
+			},
+			{
+				"pavadinimas": "Verkių rūmai",
+				"laikas": "10:02"
+			}
+		]
+	},
+	{
+		"marsrutoId": 12,
+		"numeris": 66,
+		"kryptis": "",
+		"stoteles": [
+			{
+				"pavadinimas": "Jono Kazlausko st.",
+				"laikas": ""
+			},
+			{
+				"pavadinimas": "Naujakiemio st.",
+				"laikas": ""
+			},
+			{
+				"pavadinimas": "Baltupiai",
+				"laikas": ""
+			},
+			{
+				"pavadinimas": "",
+				"laikas":  ""
+			},
+			{
+				"pavadinimas": "Balsiai",
+				"laikas": ""
+			},
+			{
+				"pavadinimas": "Naujaneriai",
+				"laikas":  ""
+			}
+		]
+	}
+]

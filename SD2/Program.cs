@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.Json;
 using System.IO;
 using System.Text.Json.Serialization;
-//using Newtonsoft.Json;
+using Newtonsoft.Json;
 public class BusStopNode
 {
     public string Pavadinimas { get; set; }
@@ -50,7 +50,7 @@ public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, be
         //nes og turi dvikrypcius, vienkrypciai listai, o jsone viskas kaip paprastas masyvas
         //tai tikriausiai bus skitomi is jsono failo su tais objektais ir irasysim taip pat su jais
         string data = File.ReadAllText(fileHome);
-        var routeDTO = JsonSerializer.Deserialize<List<BusRouteDTO>>(data, new JsonSerializerOptions
+        var routeDTO = System.Text.Json.JsonSerializer.Deserialize<List<BusRouteDTO>>(data, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,//jeigu jsone is mazosios property name, o busrouteDTO is didziosios, tai programa nekreips i tai demesi ir priskirs attinkamas reiksmes, vietoj null
         });
@@ -69,8 +69,8 @@ public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, be
                 Kryptis = dto.kryptis,
 
             };
-            BusStopNode pirmaStot = null;
-            BusStopNode paskutineStot = null;
+            BusStopNode pirmaStot = null!;
+            BusStopNode paskutineStot = null!;
 
             if (dto.stoteles.Count > 0)
             {
@@ -80,7 +80,7 @@ public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, be
 
                         Pavadinimas = t.pavadinimas,
                         Laikas = t.laikas,
-                        Kita = null,
+                        Kita = null!,
                     };
 
                     if (pirmaStot == null)
@@ -101,12 +101,31 @@ public class ScheduleManager//skaitom is json pagrindinio, is papildomo json, be
     }
     public void UpdateJSON()
     {
-
+        
     }
-
     //public static Schedule AddingExtraData(string fileHome)
     //{
-    //    //return;
+    //   var newS = new Schedule();
+    //    if (!File.Exists(fileHome))
+    //    {
+    //        Console.WriteLine("JSON file is not found");
+    //        return newS;
+    //    }
+
+    //    string duom = File.ReadAllText(fileHome);
+    //    var extraDTO = System.Text.Json.JsonSerializer.Deserialize<List<BusRouteDTO>>(duom, new JsonSerializerOptions
+    //    {
+    //        PropertyNameCaseInsensitive = true,
+    //    });
+    //    if(extraDTO == null)
+    //    {
+    //        return newS;
+    //    }
+        
+    //    //foreach()
+    //    //{
+
+    //    //}
     //}
 }
 
@@ -116,7 +135,6 @@ public class Schedule//trinam, redaguojam, pridedam reisus ir stoteles
 
     public void PridetiReisa(BusRoute newRoute)
     {
-
         if(Reisai.First == null)
         {
             Reisai.AddFirst(newRoute);
@@ -170,49 +188,73 @@ public class Schedule//trinam, redaguojam, pridedam reisus ir stoteles
         }
     }
 
-    public void RedaguotiReisoLaika(int id, TimeSpan time, TimeSpan newTime, string stop)
+    public bool RedaguotiReisoLaika(int id, TimeSpan time, TimeSpan newTime, string stop)
     {
         foreach(var r in Reisai)
         {
             if(r.ID == id)
             {
+                BusStopNode possibleDub = r.PirmaStotele;
+                while (possibleDub != null)
+                {
+                    if(possibleDub.Pavadinimas.Equals(stop, StringComparison.OrdinalIgnoreCase) && time == newTime)
+                    {
+                        Console.WriteLine("Can't change time for this stop because it's identical to the one before.");
+                        return false;
+                    }
+                    possibleDub = possibleDub.Kita;
+                }
+
                 BusStopNode cur = r.PirmaStotele;
                 while (cur != null)
                 {
                     if (cur.Laikas == time)
                     {
                         cur.Laikas = newTime;
-                        return;
+                        return true;
                     }
                     cur = cur.Kita;
                 }
             }
         }
+        return false;
     }
 
-    public void RedauguotiStotelesPavadinima(int id, string oldName, string newName)
+    public bool RedauguotiStotelesPavadinima(int id, string oldName, string newName)
     {
         foreach(var r in Reisai)
         {
             if(r.ID == id)
             {
-                BusStopNode cur = r.PirmaStotele;
+                BusStopNode possibleDub = r.PirmaStotele;
+                while (possibleDub != null)
+                {
+                    if(possibleDub.Pavadinimas.Equals(oldName, StringComparison.OrdinalIgnoreCase))//tikrina stringus, tarsi jie aprasyti is didziosios, ir tikrina po baita su baitu
+                    {
+                        Console.WriteLine("Your bus stop name already exists in list, can't change.");
+                        
+                        return false;//aptiktas dublikatas
+                    }
+                    possibleDub = possibleDub.Kita;
+                }
 
+                BusStopNode cur = r.PirmaStotele;
                 while(cur != null)
                 {
                     if(cur.Pavadinimas == oldName)
                     {
                         cur.Pavadinimas = newName;
-                        return;
+                        return true;
                     }
                     cur = cur.Kita;
                 }
             }
+            
         }
+        return false;
     }
 
 }
-
 
 public class UIManager//rodom reisu ir stoteliu info, greiciausiu reisu paieska
 {
@@ -285,6 +327,12 @@ public class UIManager//rodom reisu ir stoteliu info, greiciausiu reisu paieska
                 else if (currentInputKey.Key == ConsoleKey.D1)
                 {
                     Console.WriteLine(" - You chose first option.");
+                    //
+                    string file = "RewritingData.json";
+                    string jsonString = System.Text.Json.JsonSerializer.Serialize(tvarkarastis);
+                    File.WriteAllText(file, jsonString);
+                    Console.WriteLine("Įrašyta sėkmingai!");
+                    //
                 }
                 else if (currentInputKey.Key == ConsoleKey.D2)
                 {
@@ -306,6 +354,7 @@ public class UIManager//rodom reisu ir stoteliu info, greiciausiu reisu paieska
                 {
                     Console.WriteLine("Choose again.");
                 }
+                
             }
-    }
+        }
     }
